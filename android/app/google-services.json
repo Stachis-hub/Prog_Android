@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "286626184807",
+    "firebase_url": "https://chansonnier-f2900.firebaseio.com",
+    "project_id": "chansonnier-f2900",
+    "storage_bucket": "chansonnier-f2900.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286626184807:android:4a2fe26456b3331ae9dec2",
+        "android_client_info": {
+          "package_name": "com.example.channsonnierfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286626184807-cu9e36v2t47v6src9du1fta5ffncs9hv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_hrUd0WEhSatKy5IVD4C3xzIWDT2eON8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286626184807-cu9e36v2t47v6src9du1fta5ffncs9hv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
