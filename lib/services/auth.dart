@@ -1,4 +1,5 @@
 import 'package:channsonnierfirebase/models/user.dart';
+import 'package:channsonnierfirebase/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
@@ -38,11 +39,36 @@ class AuthService{
 
 
   // sign in with email and password
+  Future signInWithEmailAndPassword(String email, String pwd) async{
+    try{
+      AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: pwd);
+      FirebaseUser user = result.user;
+
+      return _userFromFirebaseUser(user);
+    }catch(e){
+      print(e.toString());
+      return null;
+    }
+  }
 
 
 
   //register with email and password
+Future registerWithEmailAndPassword(String email, String pwd) async{
+     try{
+       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: pwd);
+       FirebaseUser user = result.user;
 
+       //create a new document for the user with the uid
+       await DatabaseService(uid : user.uid).updateUserData('Stachis', 'Mon premier chant', 1);
+       print(user.email);
+
+       return _userFromFirebaseUser(user);
+     }catch(e){
+       print(e.toString());
+       return null;
+     }
+}
 
   // sign out
 

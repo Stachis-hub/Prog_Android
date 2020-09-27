@@ -1,4 +1,6 @@
 import 'package:channsonnierfirebase/services/auth.dart';
+import 'package:channsonnierfirebase/shared/constants.dart';
+import 'package:channsonnierfirebase/shared/loading.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,14 +14,19 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _FormKey = GlobalKey<FormState>();
+  bool loading = false;
+
 
   //text field state
   String email = '';
   String pwd = '';
+  String error = '';
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.blue[80],
       appBar: AppBar(
         backgroundColor: Colors.brown[500],
@@ -40,18 +47,23 @@ class _SignInState extends State<SignIn> {
         padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 70.0),
         child:
           Form(
+              key: _FormKey,
               child: Column(
                 children: <Widget>[
                   SizedBox(height: 20.0,),
                   TextFormField(
-                    onChanged: (val){
+                      decoration: textInputDeclaration,
+                      validator: (val) => val.isEmpty ? 'Entrez un email' : null,
+                      onChanged: (val){
                       setState(() => email = val);
                     }
                   ),
                   SizedBox(height: 20.0,),
                   TextFormField(
+                      decoration: textInputDeclaration.copyWith(hintText: 'password'),
                       obscureText: true,
-                    onChanged: (val){
+                      validator: (val) => val.length < 6 ? 'Le mot de passe doit avoir +6 caractères' : null,
+                      onChanged: (val){
                       setState(() => pwd = val);
                     }
                   ),
@@ -63,10 +75,25 @@ class _SignInState extends State<SignIn> {
                     style: TextStyle(color: Colors.black),
                   ),
                     onPressed: () async {
-                      print(email);
-                      print(pwd);
+                      if (_FormKey.currentState.validate()){
+                        setState(()
+                          => loading = true
+                        );
+                        dynamic result = await _auth.signInWithEmailAndPassword(email, pwd);
+                        if (result == null){
+                          setState(() {
+                            error ='Impossible de se connecter avec ces identifiants';
+                            loading = false;
+                          });
+                        }
+                      }
                     },
-                  )
+                  ),
+                  SizedBox(height:  12.0,),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.redAccent, fontSize: 16.0),
+                  ),
                 ],
               )
           )
